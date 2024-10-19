@@ -1,6 +1,7 @@
 return {
 	'hrsh7th/nvim-cmp',
 	event = 'InsertEnter',
+	lazy = false,
 	dependencies = {
 		'hrsh7th/cmp-buffer',
 		'hrsh7th/cmp-path',
@@ -16,14 +17,30 @@ return {
 
 		require('luasnip.loaders.from_vscode').lazy_load()
 
+		local bordered = cmp.config.window.bordered()
+
 		cmp.setup({
 			completion = {
-				completeopt = 'menu,menuone,preview,noselect',
+				completeopt = 'menu,menuone,noinsert,preview',
 			},
 			snippet = {
 				expand = function(args) luasnip.lsp_expand(args.body) end,
 			},
 			mapping = {
+				['<Esc>'] = cmp.mapping({
+					i = cmp.mapping.abort(),
+				}),
+
+				['<C-n>'] = cmp.mapping({
+					i = function()
+						if cmp.visible() then
+							cmp.abort()
+						else
+							cmp.complete()
+						end
+					end,
+				}),
+
 				['<CR>'] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						if luasnip.expandable() then
@@ -64,13 +81,21 @@ return {
 				{ name = 'buffer' },
 				{ name = 'path' },
 			},
+			---@type cmp.WindowConfig
+			window = {
+				completion = bordered,
+				documentation = bordered,
+			},
 			formatting = {
-				format = lspkind.cmp_format({
-					mode = 'symbol',
-					maxwidth = 50,
-					ellipsis_char = '...',
-					show_labelDetails = true,
-				}),
+				fields = { 'kind', 'abbr', 'menu' },
+				format = function(entry, vim_item)
+					local kind = lspkind.cmp_format({ mode = 'symbol_text', maxwidth = 50 })(entry, vim_item)
+					local strings = vim.split(kind.kind, '%s', { trimempty = true })
+					kind.kind = ' ' .. (strings[1] or '') .. ' '
+					kind.menu = '    [' .. (strings[2] or '') .. ']'
+
+					return kind
+				end,
 			},
 		})
 	end,

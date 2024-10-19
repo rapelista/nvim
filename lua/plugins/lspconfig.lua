@@ -35,12 +35,12 @@ return {
 			ensure_installed = {
 				'lua_ls',
 				'ts_ls',
+				'tailwindcss',
 			},
 			handlers = {
-				function(server_name) require('lspconfig')[server_name].setup({}) end,
+				function(server_name) lspconfig[server_name].setup({}) end,
 			},
 		})
-
 		local rtp = vim.api.nvim_get_runtime_file('', true)
 
 		lspconfig.lua_ls.setup({
