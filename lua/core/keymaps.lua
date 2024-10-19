@@ -32,7 +32,12 @@ vim.keymap.set('n', '<leader>j', ':wincmd j<CR>')
 vim.keymap.set('n', '<leader>h', ':wincmd h<CR>')
 vim.keymap.set('n', '<leader>l', ':wincmd l<CR>')
 
-vim.keymap.set('n', '<leader>c', ':bd!<CR>')
+vim.keymap.set('n', '<leader>w', ':bd!<CR>')
 vim.keymap.set('n', '<leader>kw', ':%bd!<CR><CR>')
+
+vim.keymap.set('n', '<leader>kz', function()
+	vim.cmd('set nowrap!')
+	vim.notify('Toggle Wrap')
+end)
 
 vim.keymap.set('n', 'Q', '<nop>')
