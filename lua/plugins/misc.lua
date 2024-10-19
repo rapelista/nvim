@@ -11,6 +11,7 @@ return {
 		config = true,
 	},
 	{
+		-- event = 'LazyFile',
 		'windwp/nvim-ts-autotag',
 		config = function()
 			require('nvim-ts-autotag').setup({
@@ -40,7 +41,7 @@ return {
 	{
 		'folke/todo-comments.nvim',
 		cmd = { 'TodoTrouble', 'TodoTelescope' },
-		event = 'LazyFile',
+		event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
 		opts = {},
     -- stylua: ignore
     keys = {

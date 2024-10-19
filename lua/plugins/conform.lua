@@ -6,7 +6,12 @@ return {
 	keys = {
 		{
 			'<leader>f',
-			function() require('conform').format({ async = true }) end,
+			function()
+				require('conform').format({ async = true })
+				vim.notify('Format current buffer.', vim.log.levels.INFO, {
+					title = 'OK!',
+				})
+			end,
 			mode = { 'n', 'v' },
 			desc = 'Format buffer',
 		},
@@ -16,6 +21,8 @@ return {
 	opts = {
 		formatters_by_ft = {
 			lua = { 'stylua' },
+			javascript = { 'prettierd', 'prettier', stop_after_first = true },
+			typescript = { 'prettierd', 'prettier', stop_after_first = true },
 		},
 		default_format_opts = {
 			lsp_format = 'fallback',
