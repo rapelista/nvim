@@ -6,9 +6,7 @@ return {
 	keys = {
 		{
 			'<leader>f',
-			function()
-				require('conform').format({ async = true })
-			end,
+			function() require('conform').format({ async = true }) end,
 			mode = { 'n', 'v' },
 			desc = 'Format buffer',
 		},
@@ -25,7 +23,5 @@ return {
 		format_on_save = { timeout_ms = 500 },
 		formatters = {},
 	},
-	init = function()
-		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-	end,
+	init = function() vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" end,
 }

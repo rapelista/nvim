@@ -6,6 +6,7 @@ return {
 		local builtin = require('telescope.builtin')
 		local config = require('telescope.config')
 
+		---@diagnostic disable-next-line: deprecated
 		local vimgrep_arguments = { unpack(config.values.vimgrep_arguments) }
 
 		table.insert(vimgrep_arguments, '--hidden')
