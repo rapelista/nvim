@@ -32,7 +32,7 @@ vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')
 vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
 vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
 
-vim.keymap.set('n', '<leader>w', ':bd!<CR>')
+vim.keymap.set('n', '<S-w>', ':bd!<CR>')
 vim.keymap.set('n', '<leader>kw', ':%bd!<CR><CR>')
 
 vim.keymap.set('n', '<leader>kz', function()
