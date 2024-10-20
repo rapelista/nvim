@@ -13,10 +13,16 @@ return {
         },
         extensions = {
           telescope = false,
+          treesitter = true,
         },
       })
 
-      vim.cmd('colorscheme cyberdream')
+      local isPackageJsonExists = vim.fn.filereadable('package.json')
+      if isPackageJsonExists == 1 then
+        vim.cmd('colorscheme rapelista')
+      else
+        vim.cmd('colorscheme cyberdream')
+      end
     end,
   },
   -- Github

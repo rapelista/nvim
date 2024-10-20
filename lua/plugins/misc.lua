@@ -53,4 +53,8 @@ return {
       { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
   },
+  {
+    'norcalli/nvim-colorizer.lua',
+    config = function() require('colorizer').setup() end,
+  },
 }

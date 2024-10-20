@@ -13,7 +13,7 @@ vim.opt.undofile = true
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 vim.opt.clipboard = 'unnamedplus'
 
@@ -33,3 +33,5 @@ vim.fn.sign_define('DiagnosticSignHint', { text = '󰌵', texthl = 'DiagnosticSi
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+vim.cmd('set termguicolors')

@@ -41,3 +41,10 @@ vim.keymap.set('n', '<leader>kz', function()
 end)
 
 vim.keymap.set('n', 'Q', '<nop>')
+
+vim.keymap.set('n', '<leader>so', function()
+  vim.cmd('source $MYVIMRC')
+  vim.notify('Config reloaded...', vim.diagnostic.severity.INFO, {
+    title = 'OK!',
+  })
+end)
