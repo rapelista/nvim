@@ -42,6 +42,7 @@ return {
 				function(server_name) lspconfig[server_name].setup({}) end,
 			},
 		})
+
 		local rtp = vim.api.nvim_get_runtime_file('', true)
 
 		lspconfig.lua_ls.setup({
@@ -53,6 +54,7 @@ return {
 					workspace = {
 						library = {
 							'${3rd}/luv/library',
+							'${3rd}/busted/library',
 							table.unpack(rtp),
 						},
 						checkThirdParty = false,

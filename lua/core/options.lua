@@ -25,5 +25,10 @@ vim.opt.updatetime = 50
 vim.opt.cmdheight = 0
 vim.opt.laststatus = 0
 
+vim.fn.sign_define('DiagnosticSignError', { text = ' ', texthl = 'DiagnosticSignError' })
+vim.fn.sign_define('DiagnosticSignWarn', { text = ' ', texthl = 'DiagnosticSignWarn' })
+vim.fn.sign_define('DiagnosticSignInfo', { text = ' ', texthl = 'DiagnosticSignInfo' })
+vim.fn.sign_define('DiagnosticSignHint', { text = '󰌵', texthl = 'DiagnosticSignHint' })
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
