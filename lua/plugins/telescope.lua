@@ -28,7 +28,12 @@ return {
 
 		require('telescope').setup({
 			defaults = {
-				border = false,
+				-- border = false,
+				borderchars = {
+					prompt = { ' ', ' ', '─', '│', '│', ' ', '─', '└' },
+					results = { '─', ' ', ' ', '│', '┌', '─', ' ', '│' },
+					preview = { '─', '│', '─', '│', '┬', '┐', '┘', '┴' },
+				},
 				vimgrep_arguments = vimgrep_arguments,
 			},
 			pickers = {

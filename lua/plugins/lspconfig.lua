@@ -36,6 +36,7 @@ return {
 				'lua_ls',
 				'ts_ls',
 				'tailwindcss',
+				'emmet_ls',
 			},
 			handlers = {
 				function(server_name) lspconfig[server_name].setup({}) end,

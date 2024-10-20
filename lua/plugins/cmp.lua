@@ -18,6 +18,7 @@ return {
 		require('luasnip.loaders.from_vscode').lazy_load()
 
 		local bordered = cmp.config.window.bordered()
+		bordered.border = 'single'
 
 		cmp.setup({
 			completion = {
