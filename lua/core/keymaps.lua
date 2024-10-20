@@ -36,8 +36,8 @@ vim.keymap.set('n', '<S-w>', ':bd!<CR>')
 vim.keymap.set('n', '<leader>kw', ':%bd!<CR><CR>')
 
 vim.keymap.set('n', '<leader>kz', function()
-	vim.cmd('set nowrap!')
-	vim.notify('Toggle Wrap')
+  vim.cmd('set nowrap!')
+  vim.notify('Toggle Wrap')
 end)
 
 vim.keymap.set('n', 'Q', '<nop>')
