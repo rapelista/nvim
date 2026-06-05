@@ -72,8 +72,10 @@ map("n", "<C-d>", "<C-d>zz", { desc = "Turun setengah layar (kursor center)" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Naik setengah layar (kursor center)" })
 -- `zz` = pusatkan kursor. Mata nggak capek nyari kursor lagi.
 
--- ----- Buka file explorer bawaan :Ex -----
-map("n", "<leader>e", ":Ex<CR>", { desc = "Buka file explorer" })
+-- ----- Buka file explorer -----
+-- Buka oil di FLOATING window (melayang di tengah). Beda sama "-" yang
+-- buka oil di window biasa. Definisi plugin oil ada di lua/plugins/oil.lua.
+map("n", "<leader>e", "<CMD>Oil --float<CR>", { desc = "Buka file explorer (oil float)" })
 
 -- =========================================================
 -- LESSON 3: BOOTSTRAP lazy.nvim (plugin manager)
