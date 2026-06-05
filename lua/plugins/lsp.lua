@@ -15,7 +15,7 @@ return {
   opts = {
     -- Server yang mau diinstall otomatis. Nama-nama ini dari mason.
     -- (lua_ls = server buat bahasa Lua)
-    ensure_installed = { "lua_ls" },
+    ensure_installed = { "lua_ls", "vtsls", "eslint", "emmet_language_server" },
 
     -- automatic_enable = true (default) → server yang keinstall
     -- langsung dinyalain pakai vim.lsp.enable() bawaan Neovim 0.11+.
