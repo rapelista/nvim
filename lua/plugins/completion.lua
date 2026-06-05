@@ -18,7 +18,7 @@ return {
     -- "default"  → C-y accept, C-n/C-p navigasi (mirip completion bawaan)
     -- "super-tab"→ Tab buat accept (mirip VSCode)
     -- "enter"    → Enter buat accept
-    keymap = { preset = "default" },
+    keymap = { preset = "enter" },
 
     -- ----- Tampilan -----
     completion = {
