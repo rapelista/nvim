@@ -13,7 +13,7 @@ vim.g.maplocalleader = " " -- localleader (buat filetype tertentu) = Spasi juga
 -- ----- Tampilan nomor baris -----
 vim.opt.number = true         -- tampilkan nomor baris
 vim.opt.relativenumber = true -- nomor relatif (baris lain dihitung dari kursor)
-                              -- → bikin lompat gampang: 5j / 12k langsung kebaca
+-- → bikin lompat gampang: 5j / 12k langsung kebaca
 
 -- ----- Indentasi -----
 vim.opt.tabstop = 2        -- 1 tab tampil selebar 2 spasi
@@ -27,16 +27,16 @@ vim.opt.smartcase = true  -- TAPI kalau kamu ketik huruf besar, jadi case-sensit
 vim.opt.hlsearch = true   -- highlight semua hasil pencarian
 
 -- ----- Quality of life -----
-vim.opt.wrap = false           -- baris panjang nggak dibungkus ke bawah
-vim.opt.scrolloff = 8          -- selalu sisakan 8 baris di atas/bawah kursor
-vim.opt.signcolumn = "yes"     -- kolom kiri buat ikon (error LSP, git) selalu ada
-vim.opt.termguicolors = true   -- warna 24-bit (warna theme jadi akurat)
-vim.opt.cursorline = true      -- highlight baris tempat kursor berada
-vim.opt.mouse = "a"            -- mouse aktif (boleh dimatiin nanti kalau mau purist)
+vim.opt.wrap = false         -- baris panjang nggak dibungkus ke bawah
+vim.opt.scrolloff = 8        -- selalu sisakan 8 baris di atas/bawah kursor
+vim.opt.signcolumn = "yes"   -- kolom kiri buat ikon (error LSP, git) selalu ada
+vim.opt.termguicolors = true -- warna 24-bit (warna theme jadi akurat)
+vim.opt.cursorline = true    -- highlight baris tempat kursor berada
+vim.opt.mouse = "a"          -- mouse aktif (boleh dimatiin nanti kalau mau purist)
 
 -- ----- Clipboard -----
 vim.opt.clipboard = "unnamedplus" -- yank (y) langsung nyambung ke clipboard sistem
-                                  -- → bisa copy-paste antar app
+-- → bisa copy-paste antar app
 
 -- =========================================================
 -- LESSON 2: KEYMAPS
@@ -52,8 +52,8 @@ map("n", "<leader>nh", ":noh<CR>", { desc = "Matiin highlight pencarian" })
 -- ^ Spasi n h → matiin highlight sisa /search (janji dari Lesson 1!)
 -- <CR> = tombol Enter. ":noh<CR>" = ketik :noh lalu otomatis Enter.
 
-map("n", "<leader>w", ":w<CR>", { desc = "Simpan file" })   -- Spasi w → save
-map("n", "<leader>q", ":q<CR>", { desc = "Tutup window" })  -- Spasi q → quit
+map("n", "<leader>w", ":w<CR>", { desc = "Simpan file" })  -- Spasi w → save
+map("n", "<leader>q", ":q<CR>", { desc = "Tutup window" }) -- Spasi q → quit
 
 -- ----- Pindah antar window (split) tanpa Ctrl-w dulu -----
 map("n", "<C-h>", "<C-w>h", { desc = "Pindah ke window kiri" })
@@ -75,7 +75,7 @@ map("n", "<C-u>", "<C-u>zz", { desc = "Naik setengah layar (kursor center)" })
 -- ----- Buka file explorer -----
 -- Buka oil di FLOATING window (melayang di tengah). Beda sama "-" yang
 -- buka oil di window biasa. Definisi plugin oil ada di lua/plugins/oil.lua.
-map("n", "<leader>e", "<CMD>Oil --float<CR>", { desc = "Buka file explorer (oil float)" })
+-- map("n", "<leader>e", "<CMD>Oil --float<CR>", { desc = "Buka file explorer (oil float)" })
 
 -- =========================================================
 -- LESSON 3: BOOTSTRAP lazy.nvim (plugin manager)
@@ -93,8 +93,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     -- kalau git gagal (mis. nggak ada internet), kasih pesan jelas
     vim.api.nvim_echo({
-      { "Gagal clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { "Gagal clone lazy.nvim:\n",             "ErrorMsg" },
+      { out,                                    "WarningMsg" },
       { "\nTekan tombol apa aja buat keluar..." },
     }, true, {})
     vim.fn.getchar()
@@ -110,10 +110,10 @@ vim.opt.rtp:prepend(lazypath) -- daftarin lazy.nvim ke "runtime path" Neovim
 -- =========================================================
 require("lazy").setup({
   spec = {
-    { import = "plugins" }, -- baca lua/plugins/*.lua
+    { import = "plugins" },     -- baca lua/plugins/*.lua
   },
   checker = { enabled = true }, -- auto-cek update plugin di background
   rocks = {
-    enabled = false, -- disable luarocks
+    enabled = false,            -- disable luarocks
   },
 })
