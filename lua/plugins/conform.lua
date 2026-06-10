@@ -32,6 +32,8 @@ return {
       html = { "prettier" },
       json = { "prettier" },
       markdown = { "prettier" },
+      python = { "ruff_format" },
+      sh = { "shfmt" }, -- shell script (.sh) → shfmt (install via :MasonInstall shfmt)
     },
 
     -- AUTO-FORMAT tiap save (:w).

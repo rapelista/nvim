@@ -16,7 +16,8 @@ return {
       "javascript", "typescript", "tsx",
       "html", "css", "json",
       "markdown", "markdown_inline",
-      "bash",
+      "bash", "python",
+      "dockerfile", "yaml", -- buat Dockerfile & compose.yml
     })
 
     -- 2) Nyalain highlight + indent tiap buka file yang ADA parser-nya.

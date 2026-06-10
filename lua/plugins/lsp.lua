@@ -15,7 +15,12 @@ return {
   opts = {
     -- Server yang mau diinstall otomatis. Nama-nama ini dari mason.
     -- (lua_ls = server buat bahasa Lua)
-    ensure_installed = { "lua_ls", "vtsls", "eslint", "emmet_language_server" },
+    ensure_installed = {
+      "lua_ls", "vtsls", "eslint", "emmet_language_server", "pyright",
+      "dockerls",                        -- Dockerfile (completion + hover instruksi)
+      "docker_compose_language_service", -- compose.yml / docker-compose.yml
+      "bashls",                          -- shell script: completion, hover man-page, dll.
+    },
 
     -- automatic_enable = true (default) → server yang keinstall
     -- langsung dinyalain pakai vim.lsp.enable() bawaan Neovim 0.11+.
@@ -23,6 +28,21 @@ return {
   },
 
   config = function(_, opts)
+    -- =====================================================
+    -- FILETYPE TAMBAHAN
+    -- docker_compose_language_service cuma nempel ke filetype
+    -- "yaml.docker-compose" — padahal Neovim default-nya cuma kasih "yaml".
+    -- Jadi kita daftarin nama-nama file compose biar dikenali.
+    -- =====================================================
+    vim.filetype.add({
+      filename = {
+        ["compose.yml"] = "yaml.docker-compose",
+        ["compose.yaml"] = "yaml.docker-compose",
+        ["docker-compose.yml"] = "yaml.docker-compose",
+        ["docker-compose.yaml"] = "yaml.docker-compose",
+      },
+    })
+
     -- =====================================================
     -- KONFIG PER-SERVER (API baru Neovim 0.11+: vim.lsp.config)
     -- Ini diset SEBELUM server dinyalain mason-lspconfig.
