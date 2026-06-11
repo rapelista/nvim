@@ -17,7 +17,8 @@ return {
       "html", "css", "json",
       "markdown", "markdown_inline",
       "bash", "python",
-      "dockerfile", "yaml", -- buat Dockerfile & compose.yml
+      "dockerfile", "yaml",            -- buat Dockerfile & compose.yml
+      "go", "gomod", "gosum", "gowork", -- Go + go.mod / go.sum / go.work
     })
 
     -- 2) Nyalain highlight + indent tiap buka file yang ADA parser-nya.

@@ -34,6 +34,8 @@ return {
       markdown = { "prettier" },
       python = { "ruff_format" },
       sh = { "shfmt" }, -- shell script (.sh) → shfmt (install via :MasonInstall shfmt)
+      -- Go: goimports rapiin + auto-atur import, lalu gofumpt (format lebih ketat).
+      go = { "goimports", "gofumpt" },
     },
 
     -- AUTO-FORMAT tiap save (:w).

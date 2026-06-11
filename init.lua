@@ -27,7 +27,7 @@ vim.opt.smartcase = true  -- TAPI kalau kamu ketik huruf besar, jadi case-sensit
 vim.opt.hlsearch = true   -- highlight semua hasil pencarian
 
 -- ----- Quality of life -----
-vim.opt.wrap = false         -- baris panjang nggak dibungkus ke bawah
+vim.opt.wrap = true          -- baris panjang nggak dibungkus ke bawah
 vim.opt.scrolloff = 8        -- selalu sisakan 8 baris di atas/bawah kursor
 vim.opt.signcolumn = "yes"   -- kolom kiri buat ikon (error LSP, git) selalu ada
 vim.opt.termguicolors = true -- warna 24-bit (warna theme jadi akurat)
@@ -37,6 +37,10 @@ vim.opt.mouse = "a"          -- mouse aktif (boleh dimatiin nanti kalau mau puri
 -- ----- Clipboard -----
 vim.opt.clipboard = "unnamedplus" -- yank (y) langsung nyambung ke clipboard sistem
 -- → bisa copy-paste antar app
+
+--
+vim.opt.mousescroll = "ver:3,hor:0"
+--
 
 -- =========================================================
 -- LESSON 2: KEYMAPS
