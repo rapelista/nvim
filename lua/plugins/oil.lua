@@ -43,6 +43,23 @@ return {
       -- file tersembunyi (diawali ".") DISEMBUNYIIN secara default.
       -- Toggle keliatan/nggak pakai "g." di dalam oil.
       show_hidden = false,
+
+      -- nentuin file mana yang dianggap "hidden" saat show_hidden = false.
+      -- Pakai Lua pattern (bukan PCRE): %. = titik literal, .* = apa aja.
+      is_hidden_file = function(name, _)
+        -- whitelist: dotfile ini TETAP ditampilkan
+        local whitelist = {
+          "^%.env", -- .env* (.env, .env.example, .env.local, dst.)
+          "^%.gitignore$",
+        }
+        for _, pat in ipairs(whitelist) do
+          if name:match(pat) then
+            return false
+          end
+        end
+        -- sisanya: aturan default → diawali titik = hidden
+        return name:match("^%.") ~= nil
+      end,
     },
   },
 }
