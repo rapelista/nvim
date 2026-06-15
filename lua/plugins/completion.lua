@@ -18,7 +18,12 @@ return {
     -- "default"  → C-y accept, C-n/C-p navigasi (mirip completion bawaan)
     -- "super-tab"→ Tab buat accept (mirip VSCode)
     -- "enter"    → Enter buat accept
-    keymap = { preset = "enter" },
+    keymap = {
+      preset = "enter",
+
+      -- Option+Space (Alt+Space) → munculin menu + toggle dokumentasi
+      ["<A-Space>"] = { "show", "show_documentation", "hide_documentation" },
+    },
 
     -- ----- Tampilan -----
     completion = {
