@@ -21,6 +21,7 @@ return {
       "docker_compose_language_service", -- compose.yml / docker-compose.yml
       "bashls",                          -- shell script: completion, hover man-page, dll.
       "gopls",                           -- Go: completion, go-to-def, hover, diagnostics
+      "tailwindcss",                     -- Tailwind: autocomplete class + preview warna + hover
     },
 
     -- automatic_enable = true (default) → server yang keinstall
