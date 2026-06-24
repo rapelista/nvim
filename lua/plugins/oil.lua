@@ -51,6 +51,7 @@ return {
         local whitelist = {
           "^%.env", -- .env* (.env, .env.example, .env.local, dst.)
           "^%.gitignore$",
+          "^%.oxlintrc.json",
         }
         for _, pat in ipairs(whitelist) do
           if name:match(pat) then
