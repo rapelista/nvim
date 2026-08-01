@@ -22,12 +22,44 @@ return {
   },
 
   opts = {
+    -- Formatter custom: oxlint --fix.
+    -- oxlint cuma bisa fix file di tempat (bukan via stdin), jadi:
+    --   stdin = false  → conform nulis buffer ke tempfile, ganti $FILENAME,
+    --                    oxlint fix tempfile itu, lalu conform baca balik.
+    --   exit_codes {0,1} → "--fix" keluar exit 1 kalau MASIH ada lint error yang
+    --                    gak bisa di-autofix; itu normal, bukan kegagalan.
+    -- `command` pakai binary monorepo-aware yang sama kayak nvim-lint.
+    -- ctx.dirname = direktori file asli → resolusi config .oxlintrc.json bener.
+    formatters = {
+      oxlint = {
+        command = function(_, ctx)
+          return require("util.oxlint").find_bin(ctx.dirname)
+        end,
+        args = { "--fix", "$FILENAME" },
+        stdin = false,
+        exit_codes = { 0, 1 },
+      },
+    },
+
     -- "filetype mana → pakai formatter apa". Prettier handle semua web.
+    --
+    -- Buat JS/TS: jalankan oxlint --fix DULU (buang/atur sesuai rule yang bisa
+    -- di-autofix), BARU prettier rapiin formatnya. TAPI sama kayak nvim-lint,
+    -- oxlint di-SKIP kalau proyek pakai eslint (biar eslint --fix lewat code
+    -- action di lsp.lua yang ambil alih, gak dobel). Makanya nilainya function.
     formatters_by_ft = {
-      javascript = { "prettier" },
-      javascriptreact = { "prettier" },
-      typescript = { "prettier" },
-      typescriptreact = { "prettier" }, -- ini file .tsx React kamu
+      javascript = function(bufnr)
+        return require("util.oxlint").has_eslint_config(bufnr) and { "prettier" } or { "oxlint", "prettier" }
+      end,
+      javascriptreact = function(bufnr)
+        return require("util.oxlint").has_eslint_config(bufnr) and { "prettier" } or { "oxlint", "prettier" }
+      end,
+      typescript = function(bufnr)
+        return require("util.oxlint").has_eslint_config(bufnr) and { "prettier" } or { "oxlint", "prettier" }
+      end,
+      typescriptreact = function(bufnr) -- ini file .tsx React kamu
+        return require("util.oxlint").has_eslint_config(bufnr) and { "prettier" } or { "oxlint", "prettier" }
+      end,
       css = { "prettier" },
       html = { "prettier" },
       json = { "prettier" },

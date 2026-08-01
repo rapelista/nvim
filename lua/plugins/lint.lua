@@ -11,6 +11,7 @@ return {
 
   config = function()
     local lint = require("lint")
+    local oxutil = require("util.oxlint") -- helper bersama (lihat lua/util/oxlint.lua)
 
     -- "filetype mana → linter apa".
     -- - golangcilint = pemanggil golangci-lint (install: :MasonInstall golangci-lint)
@@ -28,57 +29,10 @@ return {
       typescriptreact = { "oxlint" },
     }
 
-    -- Tentukan binary oxlint mana yang dipakai.
-    -- Bawaan nvim-lint cuma cek ./node_modules/.bin relatif ke CWD Neovim — di
-    -- monorepo (bun/pnpm workspace) binary-nya ada PER-PACKAGE, bukan di root.
-    -- Jadi kita cari node_modules/.bin/oxlint dengan naik dari direktori FILE
-    -- yang dibuka → file apps/frontend pakai oxlint frontend, apps/backend pakai
-    -- oxlint backend, terlepas dari mana Neovim dijalankan. Selalu konsisten sama
-    -- versi yang dipin tiap package. Kalau gak ketemu, fallback ke oxlint global
-    -- (mis. yang diinstall Mason). (Resolusi config .oxlintrc.json diurus oxlint
-    -- sendiri lewat "nested config" berdasar lokasi file — bukan urusan kita.)
+    -- Tentukan binary oxlint mana yang dipakai (monorepo-aware).
+    -- Detail logikanya di util.oxlint.find_bin (dipakai juga oleh conform).
     lint.linters.oxlint.cmd = function()
-      local fname = vim.api.nvim_buf_get_name(0)
-      local from = fname ~= "" and vim.fs.dirname(fname) or vim.fn.getcwd()
-      local found = vim.fs.find("node_modules/.bin/oxlint", {
-        upward = true, path = from, type = "file", limit = 1,
-      })[1]
-      return found or "oxlint"
-    end
-
-    -- Daftar nama file config eslint (sama persis kayak yang dideteksi
-    -- eslint LSP di nvim-lspconfig). Kalau salah satunya ketemu naik ke atas
-    -- dari file yang dibuka, berarti proyek ini "pakai eslint".
-    local eslint_config_files = {
-      ".eslintrc", ".eslintrc.js", ".eslintrc.cjs", ".eslintrc.yaml",
-      ".eslintrc.yml", ".eslintrc.json",
-      "eslint.config.js", "eslint.config.mjs", "eslint.config.cjs",
-      "eslint.config.ts", "eslint.config.mts", "eslint.config.cts",
-    }
-
-    -- Cek: apakah proyek file ini punya config eslint?
-    local function has_eslint_config(bufnr)
-      local fname = vim.api.nvim_buf_get_name(bufnr or 0)
-      if fname == "" then
-        return false
-      end
-      local from = vim.fs.dirname(fname)
-
-      -- 1) cari file config eslint ke ATAS dari lokasi file.
-      if vim.fs.find(eslint_config_files, { upward = true, path = from, type = "file", limit = 1 })[1] then
-        return true
-      end
-
-      -- 2) cara lama: field "eslintConfig" di dalam package.json juga sah.
-      local pkg = vim.fs.find("package.json", { upward = true, path = from, type = "file", limit = 1 })[1]
-      if pkg then
-        local ok, lines = pcall(vim.fn.readfile, pkg)
-        if ok and table.concat(lines, "\n"):match('"eslintConfig"%s*:') then
-          return true
-        end
-      end
-
-      return false
+      return oxutil.find_bin()
     end
 
     -- Jalankan lint dengan aturan: skip oxlint kalau proyek pakai eslint.
@@ -87,7 +41,7 @@ return {
 
       -- Default: nil → nvim-lint pakai linters_by_ft seperti biasa.
       local names = nil
-      if ft_linters and vim.tbl_contains(ft_linters, "oxlint") and has_eslint_config() then
+      if ft_linters and vim.tbl_contains(ft_linters, "oxlint") and oxutil.has_eslint_config() then
         -- Buang oxlint dari daftar. Kalau jadi kosong, try_lint({}) = gak ngapa2in
         -- (eslint LSP yang ambil alih).
         names = vim.tbl_filter(function(l)

@@ -115,6 +115,55 @@ return {
     -- Caranya: pasang lewat event "LspAttach" (jalan tiap
     -- LSP nempel ke sebuah buffer). Pola standar Neovim.
     -- =====================================================
+    -- =====================================================
+    -- AUTO CODE ACTION SAAT SAVE
+    -- Jalanin code action tertentu (mis. "organize/remove unused imports"
+    -- dari vtsls, dan "fix all" dari eslint) SEBELUM file ditulis.
+    --
+    -- Kenapa nggak pakai vim.lsp.buf.code_action biasa? Karena itu ASYNC —
+    -- requestnya dikirim, lalu hasilnya baru di-apply nanti (kadang SETELAH
+    -- file kadung ke-save). Di sini kita pakai request SINKRON (request_sync)
+    -- per-client biar editnya pasti diterapkan dulu, baru file disimpan.
+    --
+    -- Daftar "kind" code action yang kita minta:
+    --   source.organizeImports → urutin import + buang yang nggak kepake (vtsls)
+    --   source.fixAll.eslint   → auto-fix semua yang bisa diperbaiki eslint
+    -- Tiap server cuma balas kind yang dia dukung, jadi aman dikirim ke semua.
+    -- =====================================================
+    local CODE_ACTIONS_ON_SAVE = {
+      "source.organizeImports",
+      "source.fixAll.eslint",
+    }
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = { "*.ts", "*.tsx", "*.js", "*.jsx", "*.cjs", "*.mjs" },
+      callback = function(event)
+        local bufnr = event.buf
+        for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+          -- skip client yang nggak dukung code action sama sekali
+          if client:supports_method("textDocument/codeAction") then
+            for _, kind in ipairs(CODE_ACTIONS_ON_SAVE) do
+              local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
+              params.context = { only = { kind }, diagnostics = vim.diagnostic.get(bufnr) }
+
+              -- timeout 1500ms; kalau server lemot, nyerah biar save nggak ngegantung
+              local res = client:request_sync("textDocument/codeAction", params, 1500, bufnr)
+              for _, action in ipairs((res or {}).result or {}) do
+                if action.edit then
+                  vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+                end
+                -- sebagian action dikirim sebagai "command" (bukan edit langsung)
+                if action.command then
+                  local cmd = type(action.command) == "table" and action.command or action
+                  client:exec_cmd(cmd, { bufnr = bufnr })
+                end
+              end
+            end
+          end
+        end
+      end,
+    })
+
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(event)
         -- `buffer = event.buf` → keymap ini lokal buffer ini aja
